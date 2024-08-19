@@ -1,0 +1,21 @@
+# General
+# .vscode
+.idea
+_things
+desktop.ini
+.DS_Store
+*.pdf
+!.gitkeep
+
+# Rust
+/target
+**/*.rs.bk
+
+# Node
+node_modules
+tools/test-helper/dist
+package-lock.json
+
+# Nix
+/result
+.direnv/
