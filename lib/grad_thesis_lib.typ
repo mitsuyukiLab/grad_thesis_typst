@@ -170,7 +170,7 @@
 // Definition of chapter outline
 #let toc() = {
   align(left)[
-    #text(size: textM, weight: "bold")[
+    #text(size: textM)[
       #v(30pt)
       目次
       #v(30pt)
@@ -196,7 +196,7 @@
         } else {none}
 
         if el.level == 1 {
-          set text(weight: "black")
+          set text(font: gothic)
           if chapt_num == none {} else {
             chapt_num
             "  "
@@ -237,7 +237,7 @@
 // Definition of figure outline
 #let toc_img() = {
   align(left)[
-    #text(size: textM, weight: "bold")[
+    #text(size: textM)[
       #v(30pt)
       図目次
       #v(30pt)
@@ -279,7 +279,7 @@
 // Definition of table outline
 #let toc_table() = {
   align(left)[
-    #text(size: textM, weight: "bold")[
+    #text(size: textM)[
       #v(30pt)
       表目次
       #v(30pt)
@@ -523,31 +523,32 @@
       #pagebreak()
       // First-level headings are centered smallcaps.
       // We don't want to number of the acknowledgment section.
+      #v(30pt)
       #set par(first-line-indent: 0pt)
       #let is-ack = it.body in ([謝辞], [謝　辞], [謝　　辞], [Acknowledgement])
-      #set text(size: textM, font: gothic, weight: "bold")
-      #v(9pt, weak: true)
+      #set text(size: textM, font: gothic)
       #if it.numbering != none and not is-ack {
         text(cjk-latin-spacing: none)[第 #str(levels.first()) 章]
         h(8pt, weak: true)
       }
       #it.body
-      #v(9pt)
+      #v(30pt, weak: true)
     ] else if it.level == 2 [
+      #v(text_main)
       // The other level headings are run-ins.
       #set par(first-line-indent: 0pt)
-      #set text(size: textS, weight: "bold", font: gothic)
-      #v(1pt, weak: true)
+      #set text(size: textS, font: gothic)
       #if it.numbering != none {
         numbering("1.1", ..levels)
         h(8pt, weak: true)
       }
       #it.body
     ] else [
+      #v(text_main)
       // The other level headings are run-ins.
       #set par(first-line-indent: 0pt)
-      #set text(size: text_main, weight: "bold", font: gothic)
-      #v(1pt, weak: true)
+      #set text(size: text_main, font: gothic)
+      #v(1pt)
       #if it.numbering != none {
         numbering("1.1", ..levels)
         h(8pt, weak: true)
@@ -581,12 +582,10 @@
   }
 
   // Outline
-  // show outline.entry: set text(font: gothic, lang: "ja")
   show outline.entry.where(
     level: 1
   ): it => {
     v(0.2em)
-    set text(weight: "semibold")
     it
   }
 
@@ -596,9 +595,9 @@
     
     // Title row.
     #align(horizon)[
-      #block(text(textL, title, weight: "bold"))
+      #block(text(textL, title))
       #v(1em)
-      #block(text(textM, title_en, weight: "light"))
+      #block(text(textM, title_en))
     ]
 
     #v(10em)
