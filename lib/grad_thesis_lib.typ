@@ -3,9 +3,8 @@
 #let textS = 16pt
 #let text_main = 12pt
 
-#let gothic = ("Noto Sans JP")
-#let mincho = ("Noto Serif CJK JP")
-#let english = ("Times New Roman")
+#let mincho = ("Times New Roman", "MS Mincho", "IPAMincho", "Noto Serif CJK JP", "Hiragino Mincho Pro")
+#let gothic = ("Times New Roman", "MS Gothic", "IPAGothic", "Noto Sans CJK JP", "Hiragino Kaku Gothic Pro")
 
 // Store theorem environment numbering
 #let thmcounters = state("thm",
@@ -171,7 +170,7 @@
 // Definition of chapter outline
 #let toc() = {
   align(left)[
-    #text(size: textM, weight: "bold")[
+    #text(size: textM)[
       #v(30pt)
       目次
       #v(30pt)
@@ -197,7 +196,7 @@
         } else {none}
 
         if el.level == 1 {
-          set text(weight: "black")
+          set text(font: gothic)
           if chapt_num == none {} else {
             chapt_num
             "  "
@@ -238,7 +237,7 @@
 // Definition of figure outline
 #let toc_img() = {
   align(left)[
-    #text(size: textM, weight: "bold")[
+    #text(size: textM)[
       #v(30pt)
       図目次
       #v(30pt)
@@ -280,7 +279,7 @@
 // Definition of table outline
 #let toc_table() = {
   align(left)[
-    #text(size: textM, weight: "bold")[
+    #text(size: textM)[
       #v(30pt)
       表目次
       #v(30pt)
@@ -321,7 +320,7 @@
 
 #let abstract(body) = {
   v(6em)
-  text(font: english, size: textM, weight: "bold")[Abstract]
+  text(size: textM, weight: "bold")[Abstract]
   v(2em)
   body
   pagebreak(weak: true)
@@ -401,8 +400,9 @@
   // counting caption number
   show figure: it => {
     set align(center)
+    v(text_main)
     if it.kind == "image" {
-      set text(size: 12pt)
+      set text(size: text_main)
       it.body
       it.supplement
       " " + it.counter.display(it.numbering)
@@ -413,11 +413,10 @@
         c.step()
       })
     } else if it.kind == "table" {
-      set text(size: 12pt)
+      set text(size: text_main)
       it.supplement
       " " + it.counter.display(it.numbering)
       " " + it.caption.body
-      set text(size: 10.5pt)
       it.body
       locate(loc => {
         let chapt = counter(heading).at(loc).at(0)
@@ -427,6 +426,7 @@
     } else {
       it
     }
+    v(text_main, weak: true)
   }
 
   set document(author: author_name, title: title)
@@ -438,11 +438,8 @@
   )
 
   // Font
-  set text(size: text_main, font: english, lang: "ja")
-  show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(font: mincho) // 漢字、ひらがな、カタカナのときだけ明朝体に変更
-  show "．": set text(font: mincho) // 全角ピリオドのときだけ明朝体に変更
-  show "，": set text(font: mincho) // 全角カンマのときだけ明朝体に変更
-
+  set text(size: text_main, font: mincho, lang: "ja")
+  
   // citation number
   show ref: it => {
     if it.element != none and it.element.func() == figure {
@@ -527,40 +524,32 @@
       #pagebreak()
       // First-level headings are centered smallcaps.
       // We don't want to number of the acknowledgment section.
+      #v(30pt)
       #set par(first-line-indent: 0pt)
       #let is-ack = it.body in ([謝辞], [謝　辞], [謝　　辞], [Acknowledgement])
-      #set text(size: textM, font: english, weight: "bold")
-      #show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(size: textM, font: gothic) // 日本語のときだけゴシック体に変更
-      #show "．": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #show "，": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #v(9pt, weak: true)
+      #set text(size: textM, font: gothic)
       #if it.numbering != none and not is-ack {
         text(cjk-latin-spacing: none)[第 #str(levels.first()) 章]
         h(8pt, weak: true)
       }
       #it.body
-      #v(9pt)
+      #v(30pt, weak: true)
     ] else if it.level == 2 [
+      #v(text_main)
       // The other level headings are run-ins.
       #set par(first-line-indent: 0pt)
-      #set text(size: textS, weight: "bold", font: english)
-      #show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(size: textS, font: gothic) // 日本語のときだけゴシック体に変更
-      #show "．": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #show "，": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #v(1pt, weak: true)
+      #set text(size: textS, font: gothic)
       #if it.numbering != none {
         numbering("1.1", ..levels)
         h(8pt, weak: true)
       }
       #it.body
     ] else [
+      #v(text_main)
       // The other level headings are run-ins.
       #set par(first-line-indent: 0pt)
-      #set text(size: text_main, weight: "bold", font: english)
-      #show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(size: text_main, font: gothic) // 日本語のときだけゴシック体に変更
-      #show "．": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #show "，": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #v(1pt, weak: true)
+      #set text(size: text_main, font: gothic)
+      #v(1pt)
       #if it.numbering != none {
         numbering("1.1", ..levels)
         h(8pt, weak: true)
@@ -594,12 +583,10 @@
   }
 
   // Outline
-  // show outline.entry: set text(font: gothic, lang: "ja")
   show outline.entry.where(
     level: 1
   ): it => {
     v(0.2em)
-    set text(weight: "semibold")
     it
   }
 
@@ -609,9 +596,9 @@
     
     // Title row.
     #align(horizon)[
-      #block(text(textL, title, weight: "bold"))
+      #block(text(textL, title))
       #v(1em)
-      #block(text(textM, title_en, weight: "light"))
+      #block(text(textM, title_en))
     ]
 
     #v(10em)

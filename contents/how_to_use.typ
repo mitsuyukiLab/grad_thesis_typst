@@ -40,7 +40,7 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
 図のcaptionは @fig:fig_example のように図の下部につけてください。
 ```
 
-`supplement`属性と`kind`属性と`numbering`属性は、このテンプレートにおいてすべて共通です。
+`supplement`属性と`kind`属性は、このテンプレートにおいてすべて共通です。
 書くのを忘れそうなので、注意してください。
 
 
@@ -75,28 +75,6 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
   supplement: "Table",
   kind: "table",
 ) <tab:table_example>
-
-#figure(
-  caption: [Example of a table.],
-  placement: none, // top, bottom, auto, none
-  table(
-    columns: 4,
-    stroke: (x: none),
-    table.header(
-      [*Margins*],
-      [...],
-      [*Left Column*],
-      [*Right Column*],
-    ),
-    row-gutter: (2.2pt, auto),
-    [Top], [...], [27 mm], [27 mm],
-    [Left], [...], [16 mm], [107.5 mm],
-    [Right], [...], [100 mm], [191.5 mm],
-    [Bottom], [...], [275 mm], [275 mm],
-  ),
-  supplement: "Table",
-  kind: "table",
-) <tab:table_example1>
 
 
 === このテンプレートにおける表の記述方法 <how_to_describe_table_in_this_format>
@@ -133,7 +111,7 @@ Typstの文法とこのテンプレートに沿って、表を記述する方法
 表は，@tab:table_example のように表形式で記述します．
 ```
 
-`supplement`属性と`kind`属性と`numbering`属性は、このテンプレートにおいてすべて共通です。
+`supplement`属性と`kind`属性は、このテンプレートにおいてすべて共通です。
 書くのを忘れそうなので、注意してください。
 
 == 数式について <about_equation>
