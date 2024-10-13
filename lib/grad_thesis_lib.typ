@@ -400,8 +400,9 @@
   // counting caption number
   show figure: it => {
     set align(center)
+    v(text_main)
     if it.kind == "image" {
-      set text(size: 12pt)
+      set text(size: text_main)
       it.body
       it.supplement
       " " + it.counter.display(it.numbering)
@@ -412,11 +413,10 @@
         c.step()
       })
     } else if it.kind == "table" {
-      set text(size: 12pt)
+      set text(size: text_main)
       it.supplement
       " " + it.counter.display(it.numbering)
       " " + it.caption.body
-      set text(size: 10.5pt)
       it.body
       locate(loc => {
         let chapt = counter(heading).at(loc).at(0)
@@ -426,6 +426,7 @@
     } else {
       it
     }
+    v(text_main, weak: true)
   }
 
   set document(author: author_name, title: title)
