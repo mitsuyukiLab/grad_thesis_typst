@@ -76,28 +76,6 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
   kind: "table",
 ) <tab:table_example>
 
-#figure(
-  caption: [Example of a table.],
-  placement: none, // top, bottom, auto, none
-  table(
-    columns: 4,
-    stroke: (x: none),
-    table.header(
-      [*Margins*],
-      [...],
-      [*Left Column*],
-      [*Right Column*],
-    ),
-    row-gutter: (2.2pt, auto),
-    [Top], [...], [27 mm], [27 mm],
-    [Left], [...], [16 mm], [107.5 mm],
-    [Right], [...], [100 mm], [191.5 mm],
-    [Bottom], [...], [275 mm], [275 mm],
-  ),
-  supplement: "Table",
-  kind: "table",
-) <tab:table_example1>
-
 
 === このテンプレートにおける表の記述方法 <how_to_describe_table_in_this_format>
 
