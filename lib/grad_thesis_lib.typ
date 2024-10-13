@@ -3,9 +3,8 @@
 #let textS = 16pt
 #let text_main = 12pt
 
-#let gothic = ("Noto Sans JP")
-#let mincho = ("Noto Serif CJK JP")
-#let english = ("Times New Roman")
+#let mincho = ("Times New Roman", "MS Mincho", "IPAMincho", "Noto Serif CJK JP", "Hiragino Mincho Pro")
+#let gothic = ("Times New Roman", "MS Gothic", "IPAGothic", "Noto Sans CJK JP", "Hiragino Kaku Gothic Pro")
 
 // Store theorem environment numbering
 #let thmcounters = state("thm",
@@ -321,7 +320,7 @@
 
 #let abstract(body) = {
   v(6em)
-  text(font: english, size: textM, weight: "bold")[Abstract]
+  text(size: textM, weight: "bold")[Abstract]
   v(2em)
   body
   pagebreak(weak: true)
@@ -438,11 +437,8 @@
   )
 
   // Font
-  set text(size: text_main, font: english, lang: "ja")
-  show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(font: mincho) // 漢字、ひらがな、カタカナのときだけ明朝体に変更
-  show "．": set text(font: mincho) // 全角ピリオドのときだけ明朝体に変更
-  show "，": set text(font: mincho) // 全角カンマのときだけ明朝体に変更
-
+  set text(size: text_main, font: mincho, lang: "ja")
+  
   // citation number
   show ref: it => {
     if it.element != none and it.element.func() == figure {
@@ -529,10 +525,7 @@
       // We don't want to number of the acknowledgment section.
       #set par(first-line-indent: 0pt)
       #let is-ack = it.body in ([謝辞], [謝　辞], [謝　　辞], [Acknowledgement])
-      #set text(size: textM, font: english, weight: "bold")
-      #show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(size: textM, font: gothic) // 日本語のときだけゴシック体に変更
-      #show "．": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #show "，": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
+      #set text(size: textM, font: gothic, weight: "bold")
       #v(9pt, weak: true)
       #if it.numbering != none and not is-ack {
         text(cjk-latin-spacing: none)[第 #str(levels.first()) 章]
@@ -543,10 +536,7 @@
     ] else if it.level == 2 [
       // The other level headings are run-ins.
       #set par(first-line-indent: 0pt)
-      #set text(size: textS, weight: "bold", font: english)
-      #show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(size: textS, font: gothic) // 日本語のときだけゴシック体に変更
-      #show "．": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #show "，": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
+      #set text(size: textS, weight: "bold", font: gothic)
       #v(1pt, weak: true)
       #if it.numbering != none {
         numbering("1.1", ..levels)
@@ -556,10 +546,7 @@
     ] else [
       // The other level headings are run-ins.
       #set par(first-line-indent: 0pt)
-      #set text(size: text_main, weight: "bold", font: english)
-      #show regex("[\p{scx:Han}\p{scx:Hira}\p{scx:Kana}]"): set text(size: text_main, font: gothic) // 日本語のときだけゴシック体に変更
-      #show "．": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
-      #show "，": set text(font: gothic)　// 全角ピリオドのときだけゴシック体に変更
+      #set text(size: text_main, weight: "bold", font: gothic)
       #v(1pt, weak: true)
       #if it.numbering != none {
         numbering("1.1", ..levels)
