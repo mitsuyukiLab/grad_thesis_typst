@@ -371,7 +371,7 @@
     } else {
       it
     }
-    v(text_main, weak: true)
+    v(text_main)
   }
 
   show math.equation: it => {
