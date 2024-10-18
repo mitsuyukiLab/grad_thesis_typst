@@ -312,9 +312,9 @@
 #let equation_num(_) = {
   locate(loc => {
     let chapt = counter(heading).at(loc).at(0)
-    let c = counter(math.equation)
+    let c = counter("equation-chapter" + str(chapt))
     let n = c.at(loc).at(0)
-    "(" + str(chapt) + "." + str(n) + ")"
+    "(" + str(chapt) + "." + str(n + 1) + ")"
   })
 }
 
@@ -374,6 +374,15 @@
     v(text_main, weak: true)
   }
 
+  show math.equation: it => {
+    it
+    locate(loc => {
+        let chapt = counter(heading).at(loc).at(0)
+        let c = counter("equation-chapter" + str(chapt))
+        c.step()
+      })
+  }
+
   set document(author: author_name, title: title)
 
   // Configure the page.
@@ -416,7 +425,7 @@
       let chapt = counter(heading).at(loc).at(0)
       link(loc)[
         #{
-        let num = counter(math.equation).at(loc).at(0)
+        let num = counter("equation" + "-chapter" + str(chapt)).at(loc).at(0) + 1
         it.element.supplement
         " ("
         str(chapt)
