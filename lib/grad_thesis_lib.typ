@@ -414,14 +414,17 @@
       let el = it.element
       let loc = el.location()
       let chapt = counter(heading).at(loc).at(0)
-      let num = counter(math.equation).at(loc).at(0)
-
-      it.element.supplement
-      " ("
-      str(chapt)
-      "."
-      str(num)
-      ")"
+      link(loc)[
+        #{
+        let num = counter(math.equation).at(loc).at(0)
+        it.element.supplement
+        " ("
+        str(chapt)
+        "."
+        str(num)
+        ")"
+        }
+      ]
     } else if it.element != none and it.element.func() == heading {
       let el = it.element
       let loc = el.location()
