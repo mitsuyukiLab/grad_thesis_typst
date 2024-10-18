@@ -312,9 +312,9 @@
 #let equation_num(_) = {
   locate(loc => {
     let chapt = counter(heading).at(loc).at(0)
-    let c = counter(math.equation)
+    let c = counter("equation-chapter" + str(chapt))
     let n = c.at(loc).at(0)
-    "(" + str(chapt) + "." + str(n) + ")"
+    "(" + str(chapt) + "." + str(n + 1) + ")"
   })
 }
 
@@ -341,61 +341,6 @@
   author_affiliation_4: "",
   body
 ) = {
-    // citation number
-  show ref: it => {
-    if it.element != none and it.element.func() == figure {
-      let el = it.element
-      let loc = el.location()
-      let chapt = counter(heading).at(loc).at(0)
-
-      link(loc)[#if el.kind == "image" or el.kind == "table" {
-          // counting 
-          let num = counter(el.kind + "-chapter" + str(chapt)).at(loc).at(0) + 1
-          it.element.supplement
-          " "
-          str(chapt)
-          "."
-          str(num)
-        } else if el.kind == "thmenv" {
-          let thms = query(selector(<meta:thmenvcounter>).after(loc), loc)
-          let number = thmcounters.at(thms.first().location()).at("latest")
-          it.element.supplement
-          " "
-          numbering(it.element.numbering, ..number)
-        } else {
-          it
-        }
-      ]
-    } else if it.element != none and it.element.func() == math.equation {
-      let el = it.element
-      let loc = el.location()
-      let chapt = counter(heading).at(loc).at(0)
-      let num = counter(math.equation).at(loc).at(0)
-
-      it.element.supplement
-      " ("
-      str(chapt)
-      "."
-      str(num)
-      ")"
-    } else if it.element != none and it.element.func() == heading {
-      let el = it.element
-      let loc = el.location()
-      let num = numbering(el.numbering, ..counter(heading).at(loc))
-      if el.level == 1 {
-        str(num)
-        "章"
-      } else if el.level == 2 {
-        str(num)
-        "節"
-      } else if el.level == 3 {
-        str(num)
-        "項"
-      }
-    } else {
-      it
-    }
-  }
 
   // counting caption number
   show figure: it => {
@@ -427,6 +372,15 @@
       it
     }
     v(text_main, weak: true)
+  }
+
+  show math.equation: it => {
+    it
+    locate(loc => {
+        let chapt = counter(heading).at(loc).at(0)
+        let c = counter("equation-chapter" + str(chapt))
+        c.step()
+      })
   }
 
   set document(author: author_name, title: title)
@@ -469,14 +423,17 @@
       let el = it.element
       let loc = el.location()
       let chapt = counter(heading).at(loc).at(0)
-      let num = counter(math.equation).at(loc).at(0)
-
-      it.element.supplement
-      " ("
-      str(chapt)
-      "."
-      str(num)
-      ")"
+      link(loc)[
+        #{
+        let num = counter("equation" + "-chapter" + str(chapt)).at(loc).at(0) + 1
+        it.element.supplement
+        " ("
+        str(chapt)
+        "."
+        str(num)
+        ")"
+        }
+      ]
     } else if it.element != none and it.element.func() == heading {
       let el = it.element
       let loc = el.location()
