@@ -180,9 +180,9 @@
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
   context{
-    let elements = query(heading.where(outlined: true), here())
+    let elements = query(heading.where(outlined: true))
     for el in elements {
-      let before_toc = query(heading.where(outlined: true).before(here()), here()).find((one) => {one.body == el.body}) != none
+      let before_toc = query(heading.where(outlined: true).before(here())).find((one) => {one.body == el.body}) != none
       let page_num = if before_toc {
         numbering("i", counter(page).at(el.location()).first())
       } else {
@@ -247,7 +247,7 @@
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
   context{
-    let elements = query(figure.where(outlined: true, kind: "image"), here())
+    let elements = query(figure.where(outlined: true, kind: "image"))
     for el in elements {
       let chapt = counter(heading).at(el.location()).at(0)
       let num = counter(el.kind + "-chapter" + str(chapt)).at(el.location()).at(0) + 1
@@ -289,7 +289,7 @@
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
    context{
-    let elements = query(figure.where(outlined: true, kind: "table"), here())
+    let elements = query(figure.where(outlined: true, kind: "table"))
     for el in elements {
       let chapt = counter(heading).at(el.location()).at(0)
       let num = counter(el.kind + "-chapter" + str(chapt)).at(el.location()).at(0) + 1
@@ -410,7 +410,7 @@
           "."
           str(num)
         } else if el.kind == "thmenv" {
-          let thms = query(selector(<meta:thmenvcounter>).after(location), location)
+          let thms = query(selector(<meta:thmenvcounter>).after(location))
           let number = thmcounters.at(thms.first().location()).at("latest")
           it.element.supplement
           " "
