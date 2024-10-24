@@ -41,11 +41,11 @@
       number = none
     }
     if number == auto and numbering != none {
-      result = locate(loc => {
+      result = context{
         return thmcounters.update(thmpair => {
           let counters = thmpair.at("counters")
           // Manually update heading counter
-          counters.at("heading") = counter(heading).at(loc)
+          counters.at("heading") = counter(heading).at(here())
           if not identifier in counters.keys() {
             counters.insert(identifier, (0, ))
           }
@@ -81,7 +81,7 @@
             "latest": latest
           )
         })
-      })
+      }
 
       number = thmcounters.display(x => {
         return global_numbering(numbering, ..x.at("latest"))
@@ -179,10 +179,10 @@
 
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
-  locate(loc => {
-    let elements = query(heading.where(outlined: true), loc)
+  context{
+    let elements = query(heading.where(outlined: true), here())
     for el in elements {
-      let before_toc = query(heading.where(outlined: true).before(loc), loc).find((one) => {one.body == el.body}) != none
+      let before_toc = query(heading.where(outlined: true).before(here()), here()).find((one) => {one.body == el.body}) != none
       let page_num = if before_toc {
         numbering("i", counter(page).at(el.location()).first())
       } else {
@@ -221,17 +221,17 @@
       [#page_num]
       linebreak()
     }
-  })
+  }
 }
 
 // Counting figure number
 #let img_num(_) = {
-  locate(loc => {
-    let chapt = counter(heading).at(loc).at(0)
+  context{
+    let chapt = counter(heading).at(here()).at(0)
     let c = counter("image-chapter" + str(chapt))
-    let n = c.at(loc).at(0)
+    let n = c.at(here()).at(0)
     str(chapt) + "." + str(n + 1)
-  })
+  }
 }
 
 // Definition of figure outline
@@ -246,8 +246,8 @@
 
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
-  locate(loc => {
-    let elements = query(figure.where(outlined: true, kind: "image"), loc)
+  context{
+    let elements = query(figure.where(outlined: true, kind: "image"), here())
     for el in elements {
       let chapt = counter(heading).at(el.location()).at(0)
       let num = counter(el.kind + "-chapter" + str(chapt)).at(el.location()).at(0) + 1
@@ -263,17 +263,17 @@
       [#page_num]
       linebreak()
     }
-  })
+  }
 }
 
 // Counting table number
 #let table_num(_) = {
-  locate(loc => {
-    let chapt = counter(heading).at(loc).at(0)
+  context{
+    let chapt = counter(heading).at(here()).at(0)
     let c = counter("table-chapter" + str(chapt))
-    let n = c.at(loc).at(0)
+    let n = c.at(here()).at(0)
     str(chapt) + "." + str(n + 1)
-  })
+  }
 }
 
 // Definition of table outline
@@ -288,8 +288,8 @@
 
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
-   locate(loc => {
-    let elements = query(figure.where(outlined: true, kind: "table"), loc)
+   context{
+    let elements = query(figure.where(outlined: true, kind: "table"), here())
     for el in elements {
       let chapt = counter(heading).at(el.location()).at(0)
       let num = counter(el.kind + "-chapter" + str(chapt)).at(el.location()).at(0) + 1
@@ -305,17 +305,17 @@
       [#page_num]
       linebreak()
     }
-  })
+  }
 }
 
 // Counting equation number
 #let equation_num(_) = {
-  locate(loc => {
-    let chapt = counter(heading).at(loc).at(0)
+  context{
+    let chapt = counter(heading).at(here()).at(0)
     let c = counter("equation-chapter" + str(chapt))
-    let n = c.at(loc).at(0)
+    let n = c.at(here()).at(0)
     "(" + str(chapt) + "." + str(n + 1) + ")"
-  })
+  }
 }
 
 #let abstract(body) = {
@@ -352,22 +352,22 @@
       it.supplement
       " " + it.counter.display(it.numbering)
       " " + it.caption.body
-      locate(loc => {
-        let chapt = counter(heading).at(loc).at(0)
+      context{
+        let chapt = counter(heading).at(here()).at(0)
         let c = counter("image-chapter" + str(chapt))
         c.step()
-      })
+      }
     } else if it.kind == "table" {
       set text(size: text_main)
       it.supplement
       " " + it.counter.display(it.numbering)
       " " + it.caption.body
       it.body
-      locate(loc => {
-        let chapt = counter(heading).at(loc).at(0)
+      context{
+        let chapt = counter(heading).at(here()).at(0)
         let c = counter("table-chapter" + str(chapt))
         c.step()
-      })
+      }
     } else {
       it
     }
@@ -376,11 +376,11 @@
 
   show math.equation: it => {
     it
-    locate(loc => {
-        let chapt = counter(heading).at(loc).at(0)
+    context{
+        let chapt = counter(heading).at(here()).at(0)
         let c = counter("equation-chapter" + str(chapt))
         c.step()
-      })
+      }
   }
 
   set document(author: author_name, title: title)
@@ -398,19 +398,19 @@
   show ref: it => {
     if it.element != none and it.element.func() == figure {
       let el = it.element
-      let loc = el.location()
-      let chapt = counter(heading).at(loc).at(0)
+      let location = el.location()
+      let chapt = counter(heading).at(location).at(0)
 
-      link(loc)[#if el.kind == "image" or el.kind == "table" {
+      link(location)[#if el.kind == "image" or el.kind == "table" {
           // counting 
-          let num = counter(el.kind + "-chapter" + str(chapt)).at(loc).at(0) + 1
+          let num = counter(el.kind + "-chapter" + str(chapt)).at(location).at(0) + 1
           it.element.supplement
           " "
           str(chapt)
           "."
           str(num)
         } else if el.kind == "thmenv" {
-          let thms = query(selector(<meta:thmenvcounter>).after(loc), loc)
+          let thms = query(selector(<meta:thmenvcounter>).after(location), location)
           let number = thmcounters.at(thms.first().location()).at("latest")
           it.element.supplement
           " "
@@ -421,11 +421,11 @@
       ]
     } else if it.element != none and it.element.func() == math.equation {
       let el = it.element
-      let loc = el.location()
-      let chapt = counter(heading).at(loc).at(0)
-      link(loc)[
+      let location = el.location()
+      let chapt = counter(heading).at(location).at(0)
+      link(location)[
         #{
-        let num = counter("equation" + "-chapter" + str(chapt)).at(loc).at(0) + 1
+        let num = counter("equation" + "-chapter" + str(chapt)).at(location).at(0) + 1
         it.element.supplement
         " ("
         str(chapt)
@@ -436,10 +436,10 @@
       ]
     } else if it.element != none and it.element.func() == heading {
       let el = it.element
-      let loc = el.location()
-      let num = numbering(el.numbering, ..counter(heading).at(loc))
+      let location = el.location()
+      let num = numbering(el.numbering, ..counter(heading).at(location))
       if el.level == 1 {
-        let levels = counter(heading).at(loc)
+        let levels = counter(heading).at(location)
         "第"
         str(levels.first())
         "章"
@@ -469,9 +469,9 @@
     }
   })
 
-  show heading: it => locate(loc => {
+  show heading: it => context{
     // Find out the final number of the heading counter.
-    let levels = counter(heading).at(loc)
+    let levels = counter(heading).at(here())
     let deepest = if levels != () {
       levels.last()
     } else {
@@ -513,7 +513,7 @@
       }
       #it.body
     ]
-  })
+  }
 
   show figure.where(kind: "table"): set figure(placement: top, supplement: [Table ], numbering: table_num)
   show figure.where(kind: "table"): set figure.caption(position: top, separator: [ ])
