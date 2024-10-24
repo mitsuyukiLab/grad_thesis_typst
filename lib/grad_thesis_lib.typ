@@ -575,7 +575,6 @@
   pagebreak(weak: true)
 
   set par(leading: 1.00em, first-line-indent: 1.00em, justify: true)
-  show par: set block(spacing: 1.00em)
 
   body
 }
