@@ -26,8 +26,8 @@ brew install typst
 各自のPCにインストールされているフォントと照らし合わせて、前の方から優先的に使われるようです。
 
 ```ts
-#let mincho = ("Times New Roman", "IPAMincho", "IPAexMincho")
-#let gothic = ("Times New Roman", "IPAGothic", "IPAexGothic")
+#let mincho = ("Times New Roman", "IPAMincho")
+#let gothic = ("Times New Roman", "IPAGothic")
 ```
 
 Typstで認識されているフォントを確認するには、以下のコマンドを実行すると良いです。

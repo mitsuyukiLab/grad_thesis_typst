@@ -3,8 +3,8 @@
 #let textS = 16pt
 #let text_main = 12pt
 
-#let mincho = ("Times New Roman", "IPAMincho", "IPAexMincho")
-#let gothic = ("Times New Roman", "IPAGothic", "IPAexGothic")
+#let mincho = ("Times New Roman", "IPAMincho")
+#let gothic = ("Times New Roman", "IPAGothic")
 
 // Store theorem environment numbering
 #let thmcounters = state("thm",
