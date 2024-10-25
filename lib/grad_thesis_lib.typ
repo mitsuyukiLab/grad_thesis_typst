@@ -194,37 +194,34 @@
   author_affiliation_4: "",
   body
 ) = {
+  
+  show figure.caption: it => {
+    context{
+      it.supplement
+      " " + it.counter.display(it.numbering)
+      " " + it.body
+    }
+  }
 
   // counting caption number
   show figure: it => {
     set align(center)
+    v(text_main, weak: true)
+    it
     v(text_main)
     if it.kind == "image" {
-      set text(size: text_main)
-      it.body
-      it.supplement
-      " " + it.counter.display(it.numbering)
-      " " + it.caption.body
       context{
         let chapt = counter(heading).at(here()).at(0)
         let c = counter("image-chapter" + str(chapt))
         c.step()
       }
     } else if it.kind == "table" {
-      set text(size: text_main)
-      it.supplement
-      " " + it.counter.display(it.numbering)
-      " " + it.caption.body
-      it.body
       context{
         let chapt = counter(heading).at(here()).at(0)
         let c = counter("table-chapter" + str(chapt))
         c.step()
       }
-    } else {
-      it
     }
-    v(text_main)
   }
 
   show math.equation.where(block: true): it => {
