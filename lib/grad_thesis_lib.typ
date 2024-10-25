@@ -374,7 +374,7 @@
     v(text_main)
   }
 
-  show math.equation: it => {
+  show math.equation.where(block: true): it => {
     it
     context{
         let chapt = counter(heading).at(here()).at(0)
@@ -419,7 +419,7 @@
           it
         }
       ]
-    } else if it.element != none and it.element.func() == math.equation {
+    } else if it.element != none and it.element.func() == math.equation.where(block: true) {
       let el = it.element
       let location = el.location()
       let chapt = counter(heading).at(location).at(0)
