@@ -269,7 +269,7 @@
           it
         }
       ]
-    } else if it.element != none and it.element.func() == math.equation.where(block: true) {
+    } else if it.element != none and it.element.func() == math.equation {
       let el = it.element
       let location = el.location()
       let chapt = counter(heading).at(location).at(0)
