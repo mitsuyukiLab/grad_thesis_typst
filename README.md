@@ -26,16 +26,9 @@ brew install typst
 各自のPCにインストールされているフォントと照らし合わせて、前の方から優先的に使われるようです。
 
 ```ts
-#let mincho = ("Times New Roman", "MS Mincho", "IPAMincho", "Noto Serif CJK JP", "Hiragino Mincho Pro")
-#let gothic = ("Times New Roman", "MS Gothic", "IPAGothic", "Noto Sans CJK JP", "Hiragino Kaku Gothic Pro")
+#let mincho = ("Times New Roman", "IPAMincho", "IPAexMincho")
+#let gothic = ("Times New Roman", "IPAGothic", "IPAexGothic")
 ```
-
-基本的には、英語の場合に優先的に選択されるTimes New Roman以外を除くと、前の方がおすすめなフォントですが、
-
-- ゴシック: MS GothicとIPAGothic
-- 明朝: MS MinchoとIPAMincho
-
-くらいまででないと、仕上がりが[指定フォーマット](https://www.jasnaoe.or.jp/lecture/2024aut/thesis.html?id=yoryo)に近づきません。
 
 Typstで認識されているフォントを確認するには、以下のコマンドを実行すると良いです。
 
@@ -45,7 +38,16 @@ typst fonts
 
 #### Windows
 
-おそらく、WindowsではMS GothicとMS Mincho、Times New Romanがデフォルトで入っているので、何もする必要がありません。
+IPAフォントのインストールは[ここ](https://www.kisnet.or.jp/~kanou/index.php?windows/windows%E5%85%B1%E9%80%9A/IPAFont%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)あたりを参考にしてください。
+
+フォントの設定を以下のように変えて、Windowsに搭載されているフォントを使うのも良いかもしれません。
+
+```ts
+#let mincho = ("Times New Roman", "MS Mincho")
+#let gothic = ("Times New Roman", "MS Gothic")
+```
+
+個人的にはWSL2を用いてUbuntu環境を作ってしまったほうが好みです。
 
 #### Mac OS
 
