@@ -6,153 +6,6 @@
 #let mincho = ("Times New Roman", "IPAMincho")
 #let gothic = ("Times New Roman", "IPAGothic")
 
-// Store theorem environment numbering
-#let thmcounters = state("thm",
-  (
-    "counters": ("heading": ()),
-    "latest": ()
-  )
-)
-
-// Setting theorem environment
-#let thmenv(identifier, base, base_level, fmt) = {
-
-  let global_numbering = numbering
-
-  return (
-    ..args,
-    body,
-    number: auto,
-    numbering: "1.1",
-    refnumbering: auto,
-    supplement: identifier,
-    base: base,
-    base_level: base_level
-  ) => {
-    let name = none
-    if args != none and args.pos().len() > 0 {
-      name = args.pos().first()
-    }
-    if refnumbering == auto {
-      refnumbering = numbering
-    }
-    let result = none
-    if number == auto and numbering == none {
-      number = none
-    }
-    if number == auto and numbering != none {
-      result = context{
-        return thmcounters.update(thmpair => {
-          let counters = thmpair.at("counters")
-          // Manually update heading counter
-          counters.at("heading") = counter(heading).at(here())
-          if not identifier in counters.keys() {
-            counters.insert(identifier, (0, ))
-          }
-
-          let tc = counters.at(identifier)
-          if base != none {
-            let bc = counters.at(base)
-
-            // Pad or chop the base count
-            if base_level != none {
-              if bc.len() < base_level {
-                bc = bc + (0,) * (base_level - bc.len())
-              } else if bc.len() > base_level{
-                bc = bc.slice(0, base_level)
-              }
-            }
-
-            // Reset counter if the base counter has updated
-            if tc.slice(0, -1) == bc {
-              counters.at(identifier) = (..bc, tc.last() + 1)
-            } else {
-              counters.at(identifier) = (..bc, 1)
-            }
-          } else {
-            // If we have no base counter, just count one level
-            counters.at(identifier) = (tc.last() + 1,)
-            let latest = counters.at(identifier)
-          }
-
-          let latest = counters.at(identifier)
-          return (
-            "counters": counters,
-            "latest": latest
-          )
-        })
-      }
-
-      number = thmcounters.display(x => {
-        return global_numbering(numbering, ..x.at("latest"))
-      })
-    }
-
-    return figure(
-      result +  // hacky!
-      fmt(name, number, body, ..args.named()) +
-      [#metadata(identifier) <meta:thmenvcounter>],
-      kind: "thmenv",
-      outlined: false,
-      caption: none,
-      supplement: supplement,
-      numbering: refnumbering,
-    )
-  }
-}
-
-// Definition of theorem box
-#let thmbox(
-  identifier,
-  head,
-  ..blockargs,
-  supplement: auto,
-  padding: (top: 0.5em, bottom: 0.5em),
-  namefmt: x => [(#x)],
-  titlefmt: strong,
-  bodyfmt: x => x,
-  separator: [#h(0.1em):#h(0.2em)],
-  base: "heading",
-  base_level: none,
-) = {
-  if supplement == auto {
-    supplement = head
-  }
-  let boxfmt(name, number, body, title: auto) = {
-    if not name == none {
-      name = [ #namefmt(name)]
-    } else {
-      name = []
-    }
-    if title == auto {
-      title = head
-    }
-    if not number == none {
-      title += " " + number
-    }
-    title = titlefmt(title)
-    body = bodyfmt(body)
-    pad(
-      ..padding,
-      block(
-        width: 100%,
-        inset: 1.2em,
-        radius: 0.3em,
-        breakable: false,
-        ..blockargs.named(),
-        [#title#name#separator#body]
-      )
-    )
-  }
-  return thmenv(
-    identifier,
-    base,
-    base_level,
-    boxfmt
-  ).with(
-    supplement: supplement,
-  )
-}
 
 // Definition of content to string
 #let to-string(content) = {
@@ -341,37 +194,34 @@
   author_affiliation_4: "",
   body
 ) = {
+  
+  show figure.caption: it => {
+    context{
+      it.supplement
+      " " + it.counter.display(it.numbering)
+      " " + it.body
+    }
+  }
 
   // counting caption number
   show figure: it => {
     set align(center)
+    v(text_main, weak: true)
+    it
     v(text_main)
     if it.kind == "image" {
-      set text(size: text_main)
-      it.body
-      it.supplement
-      " " + it.counter.display(it.numbering)
-      " " + it.caption.body
       context{
         let chapt = counter(heading).at(here()).at(0)
         let c = counter("image-chapter" + str(chapt))
         c.step()
       }
     } else if it.kind == "table" {
-      set text(size: text_main)
-      it.supplement
-      " " + it.counter.display(it.numbering)
-      " " + it.caption.body
-      it.body
       context{
         let chapt = counter(heading).at(here()).at(0)
         let c = counter("table-chapter" + str(chapt))
         c.step()
       }
-    } else {
-      it
     }
-    v(text_main)
   }
 
   show math.equation.where(block: true): it => {
@@ -514,10 +364,10 @@
       #it.body
     ]
   }
-
-  show figure.where(kind: "table"): set figure(placement: top, supplement: [Table ], numbering: table_num)
+  
+  show figure.where(kind: "table"): set figure(supplement: [Table ], numbering: table_num)
   show figure.where(kind: "table"): set figure.caption(position: top, separator: [ ])
-  show figure.where(kind: "image"): set figure(placement: top, supplement: [Fig.], numbering: img_num)
+  show figure.where(kind: "image"): set figure(supplement: [Fig.], numbering: img_num)
   show figure.where(kind: "image"): set figure.caption(position: bottom, separator: [ ])
   show math.equation: set math.equation(supplement: [式], numbering: equation_num)
 
