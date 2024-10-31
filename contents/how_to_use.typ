@@ -32,7 +32,7 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
   image("img/example.svg", width: 90%),
   caption: [Example of a figure.],
   supplement: "Fig.", // 図番号の前につける文字列(固定)
-  kind: "fig", // 図目次作成のためのキーワード(固定)
+  kind: "image", // 図目次作成のためのキーワード(固定)
 ) <fig:fig_example> // 図の参照用のラベル
 ```
 
