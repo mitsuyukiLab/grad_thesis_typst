@@ -1,5 +1,13 @@
 # grad_thesis_typst
 
+- 名前: `自分の名前`
+- タイトル: `卒論修論タイトル`
+- 卒業年度: `卒業年度`
+- 所属: `所属(大学・学部・学科・コース)`
+- 指導教員:`指導教員`
+
+---
+
 これは、卒論・修論・博論などの卒業論文をTypstで書くためのフォーマットです。
 
 ## 事前準備
@@ -20,7 +28,7 @@ Mac OSの場合は、Terminalか何かで、[Homebrew](https://formulae.brew.sh/
 brew install typst
 ```
 
-### フォントのインストール(Mac, Linuxのみ)
+### フォントのインストール
 
 現在、フォントについては以下の設定になっています。
 各自のPCにインストールされているフォントと照らし合わせて、前の方から優先的に使われるようです。
@@ -28,6 +36,8 @@ brew install typst
 ```ts
 #let mincho = ("Times New Roman", "IPAMincho")
 #let gothic = ("Times New Roman", "IPAGothic")
+// #let mincho = ("Times New Roman", "MS Mincho", "IPAMincho")
+// #let gothic = ("Times New Roman", "MS Gothic", "IPAGothic")
 ```
 
 Typstで認識されているフォントを確認するには、以下のコマンドを実行すると良いです。
@@ -43,11 +53,11 @@ IPAフォントのインストールは[ここ](https://www.kisnet.or.jp/~kanou/
 フォントの設定を以下のように変えて、Windowsに搭載されているフォントを使うのも良いかもしれません。
 
 ```ts
-#let mincho = ("Times New Roman", "MS Mincho")
-#let gothic = ("Times New Roman", "MS Gothic")
+// #let mincho = ("Times New Roman", "IPAMincho")
+// #let gothic = ("Times New Roman", "IPAGothic")
+#let mincho = ("Times New Roman", "MS Mincho", "IPAMincho")
+#let gothic = ("Times New Roman", "MS Gothic", "IPAGothic")
 ```
-
-個人的にはWSL2を用いてUbuntu環境を作ってしまったほうが好みです。
 
 #### Mac OS
 
@@ -76,9 +86,7 @@ sudo apt-get install msttcorefonts # Times New Roman
 ### 1. レポジトリの用意
 
 - GitHubアカウントを持っている方は、`use this template` で、自分用のレポジトリを生成してください。
-  
-  - レポジトリの名前は`年度-学位-名字`をおすすめします。例えば、2024年度に卒業論文を書く学部生の場合は`2024-B-mitsuyuki`とかが良いです。
-  - Privateレポジトリにし、指導教員を共同編集者に招待してください。
+  - Privateレポジトリにし、必要に応じて指導教員を共同編集者に招待することをおすすめします。
 
 ### 2. 執筆環境設定(VSCode)
 
