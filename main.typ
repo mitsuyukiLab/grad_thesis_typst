@@ -4,7 +4,7 @@
   type: "卒業論文", // "卒業論文", "修士論文", "博士論文"
   title: "論文タイトルを入れる入れる \n 君の名は",
   title_en: "Please input your thesis title \n Your Name",
-  submittion_date: "2050年3月4日",
+  submission_date: "2050年3月4日",
   supervisor_name: "海洋 太郎",
   supervisor_title: "准教授",
   author_name: "航空 太郎",

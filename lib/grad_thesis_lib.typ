@@ -1,11 +1,12 @@
+#let mincho = ("Times New Roman", "IPAMincho")
+#let gothic = ("Times New Roman", "IPAGothic")
+// #let mincho = ("Times New Roman", "MS Mincho", "IPAMincho")
+// #let gothic = ("Times New Roman", "MS Gothic", "IPAGothic")
+
 #let textL = 24pt
 #let textM = 20pt
 #let textS = 16pt
 #let text_main = 12pt
-
-#let mincho = ("Times New Roman", "IPAMincho")
-#let gothic = ("Times New Roman", "IPAGothic")
-
 
 // Definition of content to string
 #let to-string(content) = {
@@ -183,7 +184,7 @@
   type: "",
   title: "",
   title_en: "",
-  submittion_date: none,
+  submission_date: none,
   supervisor_name: none,
   supervisor_title: none,
   author_name: "",
@@ -409,7 +410,7 @@
     ]
 
     #v(10em)
-    #block(text(textS)[#submittion_date 提出])
+    #block(text(textS)[#submission_date 提出])
     #v(2em)
     #block(text(textS)[指導教員 #supervisor_name #supervisor_title])
     #v(4em)
