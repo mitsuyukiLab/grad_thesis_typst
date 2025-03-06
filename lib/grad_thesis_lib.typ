@@ -372,6 +372,10 @@
   show figure.where(kind: image): set figure.caption(position: bottom, separator: [ ])
   show math.equation: set math.equation(supplement: [Eq.], numbering: equation_num)
 
+  show figure.caption: it => {
+    align(box(align(it, left)), center)
+  }
+
   // Display block code in a larger block with more padding.
   show raw.where(block: true): block.with(
     fill: luma(240),
