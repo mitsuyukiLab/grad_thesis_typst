@@ -30,9 +30,7 @@
 #include "contents/abstract.typ" 
 
 #toc()
-#pagebreak()
 #toc_img()
-#pagebreak()
 #toc_table()
 
 // ------------------------------------------------
