@@ -101,10 +101,10 @@
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
   context{
-    let elements = query(figure.where(outlined: true, kind: "image"))
+    let elements = query(figure.where(outlined: true, kind: image))
     for el in elements {
       let chapt = counter(heading).at(el.location()).at(0)
-      let num = counter(el.kind + "-chapter" + str(chapt)).at(el.location()).at(0) + 1
+      let num = counter("image-chapter" + str(chapt)).at(el.location()).at(0) + 1
       let page_num = counter(page).at(el.location()).first()
       let caption_body = to-string(el.caption.body)
       "Fig. "
@@ -143,10 +143,10 @@
   set text(size: text_main)
   set par(leading: 1.24em, first-line-indent: 0pt)
    context{
-    let elements = query(figure.where(outlined: true, kind: "table"))
+    let elements = query(figure.where(outlined: true, kind: table))
     for el in elements {
       let chapt = counter(heading).at(el.location()).at(0)
-      let num = counter(el.kind + "-chapter" + str(chapt)).at(el.location()).at(0) + 1
+      let num = counter("table-chapter" + str(chapt)).at(el.location()).at(0) + 1
       let page_num = counter(page).at(el.location()).first()
       let caption_body = to-string(el.caption.body)
       "Table "
@@ -366,11 +366,15 @@
     ]
   }
   
-  show figure.where(kind: "table"): set figure(supplement: [Table ], numbering: table_num)
-  show figure.where(kind: "table"): set figure.caption(position: top, separator: [ ])
-  show figure.where(kind: "image"): set figure(supplement: [Fig.], numbering: img_num)
-  show figure.where(kind: "image"): set figure.caption(position: bottom, separator: [ ])
-  show math.equation: set math.equation(supplement: [式], numbering: equation_num)
+  show figure.where(kind: table): set figure(supplement: [Table], numbering: table_num)
+  show figure.where(kind: table): set figure.caption(position: top, separator: [ ])
+  show figure.where(kind: image): set figure(supplement: [Fig.], numbering: img_num)
+  show figure.where(kind: image): set figure.caption(position: bottom, separator: [ ])
+  show math.equation: set math.equation(supplement: [Eq.], numbering: equation_num)
+
+  show figure.caption: it => {
+    align(box(align(it, left)), center)
+  }
 
   // Display block code in a larger block with more padding.
   show raw.where(block: true): block.with(

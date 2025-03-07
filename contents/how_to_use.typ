@@ -16,8 +16,6 @@ Typstでは、PNG・JPEG・GIF・SVG フォーマットの画像をサポート�
   image("img/example.svg", width: 90%),
   placement: none, // top, bottom, auto, none
   caption: "Example of a figure.",
-  supplement: "Fig.",
-  kind: "image",
 ) <fig:fig_example>
 
 === このテンプレートにおける図の記述方法 <how_to_describe_figure_in_this_format>
@@ -31,8 +29,6 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
   placement: none, // top, bottom, auto, none
   image("img/example.svg", width: 90%),
   caption: [Example of a figure.],
-  supplement: "Fig.", // 図番号の前につける文字列(固定)
-  kind: "image", // 図目次作成のためのキーワード(固定)
 ) <fig:fig_example> // 図の参照用のラベル
 ```
 
@@ -72,8 +68,6 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
     [Right], [...], [100 mm], [191.5 mm],
     [Bottom], [...], [275 mm], [275 mm],
   ),
-  supplement: "Table",
-  kind: "table",
 ) <tab:table_example>
 
 
@@ -102,8 +96,6 @@ Typstの文法とこのテンプレートに沿って、表を記述する方法
     [Right], [...], [100 mm], [191.5 mm],
     [Bottom], [...], [275 mm], [275 mm],
   ),
-  supplement: "Table", // 表番号の前につける文字列(固定)
-  kind: "table", // 表目次作成のためのキーワード(固定)
 ) <tab:table_example> // 表の参照用のラベル
 ```
 
