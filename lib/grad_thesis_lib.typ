@@ -8,120 +8,31 @@
 #let textS = 16pt
 #let text_main = 12pt
 
-// Definition of content to string
-#let to-string(content) = {
-  if content.has("text") {
-    content.text
-  } else if content.has("children") {
-    content.children.map(to-string).join("")
-  } else if content.has("body") {
-    to-string(content.body)
-  } else if content == [ ] {
-    " "
-  }
-}
-
 // Definition of chapter outline
 #let toc() = {
   show outline.entry.where(level: 1): set block(spacing: 1.5em)
   v(30pt)
-  text(size: 20pt , weight: "bold")[目次] // TODO gothicにする
+  text(size: textM, font: gothic, weight: "bold")[目次]
   v(30pt)
   outline(indent: 1.5em, title: none)
 }
 
-// Counting figure number
-#let img_num(_) = {
-  context{
-    let chapt = counter(heading).at(here()).at(0)
-    let c = counter("image-chapter" + str(chapt))
-    let n = c.at(here()).at(0)
-    str(chapt) + "." + str(n + 1)
-  }
-}
-
 // Definition of figure outline
 #let toc_img() = {
-  align(left)[
-    #text(size: textM)[
-      #v(30pt)
-      図目次
-      #v(30pt)
-    ]
-  ]
-
-  set text(size: text_main)
-  set par(leading: 1.24em, first-line-indent: 0pt)
-  context{
-    let elements = query(figure.where(outlined: true, kind: image))
-    for el in elements {
-      let chapt = counter(heading).at(el.location()).at(0)
-      let num = counter("image-chapter" + str(chapt)).at(el.location()).at(0) + 1
-      let page_num = counter(page).at(el.location()).first()
-      let caption_body = to-string(el.caption.body)
-      "Fig. "
-      str(chapt)
-      "."
-      str(num)
-      h(1em)
-      caption_body
-      box(width: 1fr, h(0.5em) + box(width: 1fr, repeat[.]) + h(0.5em))
-      [#page_num]
-      linebreak()
-    }
-  }
-}
-
-// Counting table number
-#let table_num(_) = {
-  context{
-    let chapt = counter(heading).at(here()).at(0)
-    let c = counter("table-chapter" + str(chapt))
-    let n = c.at(here()).at(0)
-    str(chapt) + "." + str(n + 1)
-  }
+  show outline.entry.where(level: 2): set block(spacing: 1.5em)
+  v(30pt)
+  text(size: textM, font: gothic, weight: "bold")[図目次] // TODO gothicにする
+  v(30pt)
+  outline(indent: 1.5em, title: none, target: figure.where(kind: image))
 }
 
 // Definition of table outline
 #let toc_table() = {
-  align(left)[
-    #text(size: textM)[
-      #v(30pt)
-      表目次
-      #v(30pt)
-    ]
-  ]
-
-  set text(size: text_main)
-  set par(leading: 1.24em, first-line-indent: 0pt)
-   context{
-    let elements = query(figure.where(outlined: true, kind: table))
-    for el in elements {
-      let chapt = counter(heading).at(el.location()).at(0)
-      let num = counter("table-chapter" + str(chapt)).at(el.location()).at(0) + 1
-      let page_num = counter(page).at(el.location()).first()
-      let caption_body = to-string(el.caption.body)
-      "Table "
-      str(chapt)
-      "."
-      str(num)
-      h(1em)
-      caption_body
-      box(width: 1fr, h(0.5em) + box(width: 1fr, repeat[.]) + h(0.5em))
-      [#page_num]
-      linebreak()
-    }
-  }
-}
-
-// Counting equation number
-#let equation_num(_) = {
-  context{
-    let chapt = counter(heading).at(here()).at(0)
-    let c = counter("equation-chapter" + str(chapt))
-    let n = c.at(here()).at(0)
-    "(" + str(chapt) + "." + str(n + 1) + ")"
-  }
+  show outline.entry.where(level: 2): set block(spacing: 1.5em)
+  v(30pt)
+  text(size: textM, font: gothic, weight: "bold")[表目次] // TODO gothicにする
+  v(30pt)
+  outline(indent: 1.5em, title: none, target: figure.where(kind: table))
 }
 
 #let abstract(body) = {
@@ -147,44 +58,6 @@
   author_affiliation_4: "",
   body
 ) = {
-  
-  show figure.caption: it => {
-    context{
-      it.supplement
-      " " + it.counter.display(it.numbering)
-      " " + it.body
-    }
-  }
-
-  // counting caption number
-  show figure: it => {
-    set align(center)
-    v(text_main, weak: true)
-    it
-    v(text_main)
-    if it.kind == "image" {
-      context{
-        let chapt = counter(heading).at(here()).at(0)
-        let c = counter("image-chapter" + str(chapt))
-        c.step()
-      }
-    } else if it.kind == "table" {
-      context{
-        let chapt = counter(heading).at(here()).at(0)
-        let c = counter("table-chapter" + str(chapt))
-        c.step()
-      }
-    }
-  }
-
-  show math.equation.where(block: true): it => {
-    it
-    context{
-        let chapt = counter(heading).at(here()).at(0)
-        let c = counter("equation-chapter" + str(chapt))
-        c.step()
-      }
-  }
 
   set document(author: author_name, title: title)
 
@@ -197,47 +70,9 @@
   // Font
   set text(size: text_main, font: mincho, lang: "ja")
   
-  // citation number
+  // Citation format
   show ref: it => {
-    if it.element != none and it.element.func() == figure {
-      let el = it.element
-      let location = el.location()
-      let chapt = counter(heading).at(location).at(0)
-
-      link(location)[#if el.kind == "image" or el.kind == "table" {
-          // counting 
-          let num = counter(el.kind + "-chapter" + str(chapt)).at(location).at(0) + 1
-          it.element.supplement
-          " "
-          str(chapt)
-          "."
-          str(num)
-        } else if el.kind == "thmenv" {
-          let thms = query(selector(<meta:thmenvcounter>).after(location))
-          let number = thmcounters.at(thms.first().location()).at("latest")
-          it.element.supplement
-          " "
-          numbering(it.element.numbering, ..number)
-        } else {
-          it
-        }
-      ]
-    } else if it.element != none and it.element.func() == math.equation {
-      let el = it.element
-      let location = el.location()
-      let chapt = counter(heading).at(location).at(0)
-      link(location)[
-        #{
-        let num = counter("equation" + "-chapter" + str(chapt)).at(location).at(0) + 1
-        it.element.supplement
-        " ("
-        str(chapt)
-        "."
-        str(num)
-        ")"
-        }
-      ]
-    } else if it.element != none and it.element.func() == heading {
+    if it.element != none and it.element.func() == heading {
       let el = it.element
       let location = el.location()
       let num = numbering(el.numbering, ..counter(heading).at(location))
@@ -317,12 +152,26 @@
       #it.body
     ]
   }
-  
-  show figure.where(kind: table): set figure(supplement: [Table], numbering: table_num)
+
+  set math.equation(numbering: (..num) =>
+    numbering("(1.1)", counter(heading).get().first(), num.pos().first())
+    )
+
+  set figure(numbering: (..num) =>
+    numbering("1.1", counter(heading).get().first(), num.pos().first())
+  )
+
+  show heading.where(level: 1): it => {
+    counter(math.equation).update(0)
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    it
+  }
+  show figure.where(kind: table): set figure(supplement: [Table])
   show figure.where(kind: table): set figure.caption(position: top, separator: [ ])
-  show figure.where(kind: image): set figure(supplement: [Fig.], numbering: img_num)
+  show figure.where(kind: image): set figure(supplement: [Fig.])
   show figure.where(kind: image): set figure.caption(position: bottom, separator: [ ])
-  show math.equation: set math.equation(supplement: [Eq.], numbering: equation_num)
+  show math.equation: set math.equation(supplement: [Eq.])
 
   show figure.caption: it => {
     align(box(align(it, left)), center)
@@ -344,14 +193,6 @@
     }
     code
     linebreak(justify: false)
-  }
-
-  // Outline
-  show outline.entry.where(
-    level: 1
-  ): it => {
-    v(0.2em)
-    it
   }
 
   align(center)[
