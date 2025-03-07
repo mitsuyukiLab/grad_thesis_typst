@@ -23,59 +23,11 @@
 
 // Definition of chapter outline
 #let toc() = {
-  align(left)[
-    #text(size: textM)[
-      #v(30pt)
-      目次
-      #v(30pt)
-    ]
-  ]
-
-  set text(size: text_main)
-  set par(leading: 1.24em, first-line-indent: 0pt)
-  context{
-    let elements = query(heading.where(outlined: true))
-    for el in elements {
-      let before_toc = query(heading.where(outlined: true).before(here())).find((one) => {one.body == el.body}) != none
-      let page_num = if before_toc {
-        numbering("i", counter(page).at(el.location()).first())
-      } else {
-        counter(page).at(el.location()).first()
-      }
-
-      link(el.location())[#{
-        // acknoledgement has no numbering
-        let chapt_num = if el.numbering != none {
-          numbering(el.numbering, ..counter(heading).at(el.location()))
-        } else {none}
-
-        if el.level == 1 {
-          set text(font: gothic)
-          if chapt_num == none {} else {
-            chapt_num
-            "  "
-          }
-          let rebody = to-string(el.body)
-          rebody
-        } else if el.level == 2 {
-          h(2em)
-          chapt_num
-          " "
-          let rebody = to-string(el.body)
-          rebody
-        } else {
-          h(5em)
-          chapt_num
-          " "
-          let rebody = to-string(el.body)
-          rebody
-        }
-      }]
-      box(width: 1fr, h(0.5em) + box(width: 1fr, repeat[.]) + h(0.5em))
-      [#page_num]
-      linebreak()
-    }
-  }
+  show outline.entry.where(level: 1): set block(spacing: 1.5em)
+  v(30pt)
+  text(size: 20pt , weight: "bold")[目次] // TODO gothicにする
+  v(30pt)
+  outline(indent: 1.5em, title: none)
 }
 
 // Counting figure number
