@@ -100,13 +100,13 @@
     <sort>
       <key variable="citation-number"/>
     </sort>
-    <layout delimiter="," suffix=")">
+    <layout delimiter="," prefix="[" suffix="]">
       <text variable="citation-number"/>
     </layout>
   </citation>
   <bibliography et-al-min="6" et-al-use-first="1" second-field-align="flush" entry-spacing="0" line-spacing="2">
     <layout>
-      <text variable="citation-number" suffix=")"/>
+      <text variable="citation-number" prefix="[" suffix="]"/>
       <group delimiter=" ">
         <text macro="author"/>
         <text macro="title" suffix=","/>
