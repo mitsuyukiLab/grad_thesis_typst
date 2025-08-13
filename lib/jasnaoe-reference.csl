@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-GB">
   <!-- This style was edited with the Visual CSL Editor (https://editor.citationstyles.org/visualEditor/#) -->
   <info>
@@ -29,8 +29,8 @@
     </choose>
   </macro>
   <macro name="author">
-    <names variable="author" delimiter="," suffix=": ">
-      <name and="text" delimiter-precedes-last="always" initialize-with=". " name-as-sort-order="all"/>
+    <names variable="author" suffix=": ">
+      <name initialize-with=". " name-as-sort-order="all" delimiter=", "/>
       <label form="short"/>
       <et-al font-style="italic"/>
     </names>
@@ -40,10 +40,6 @@
       <if variable="volume" type="article" match="any"/>
       <else-if variable="DOI">
         <text variable="DOI" prefix="doi:" suffix=","/>
-      </else-if>
-      <else-if variable="URL">
-        <text term="at"/>
-        <text variable="URL" prefix=" "/>
       </else-if>
     </choose>
   </macro>
@@ -79,6 +75,34 @@
           <date date-parts="year" form="text" variable="issued" suffix="."/>
         </group>
       </else-if>
+      <else-if type="webpage document" match="any">
+        <group delimiter=", " suffix=".">
+          <text variable="publisher"/>
+          <date variable="issued">
+            <date-part name="year"/>
+          </date>
+        </group>
+        <choose>
+          <if variable="DOI" match="any">
+            <text variable="DOI" prefix=" https://doi.org/"/>
+          </if>
+          <else-if variable="URL">
+            <text variable="URL" prefix=" "/>
+          </else-if>
+        </choose>
+        <choose>
+          <if variable="accessed">
+            <group prefix=" (" suffix=")">
+              <text value="Accessed on"/>
+              <date variable="accessed">
+                <date-part name="year" prefix=" "/>
+                <date-part name="month" form="numeric-leading-zeros" prefix="-"/>
+                <date-part name="day" form="numeric-leading-zeros" prefix="-"/>
+              </date>
+            </group>
+          </if>
+        </choose>
+      </else-if>
       <else>
         <date variable="issued" suffix=".">
           <date-part name="year"/>
@@ -100,13 +124,13 @@
     <sort>
       <key variable="citation-number"/>
     </sort>
-    <layout delimiter="," prefix="[" suffix="]">
+    <layout delimiter="," suffix=")">
       <text variable="citation-number"/>
     </layout>
   </citation>
   <bibliography et-al-min="6" et-al-use-first="1" second-field-align="flush" entry-spacing="0" line-spacing="2">
     <layout>
-      <text variable="citation-number" prefix="[" suffix="]"/>
+      <text variable="citation-number" suffix=")"/>
       <group delimiter=" ">
         <text macro="author"/>
         <text macro="title" suffix=","/>
