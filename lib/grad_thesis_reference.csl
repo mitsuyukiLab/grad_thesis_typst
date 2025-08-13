@@ -2,19 +2,16 @@
 <style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-GB">
   <!-- This style was edited with the Visual CSL Editor (https://editor.citationstyles.org/visualEditor/#) -->
   <info>
-    <title>jasnaoe conference</title>
-    <id>http://www.zotero.org/styles/jasnaoe-conference</id>
-    <link href="http://www.zotero.org/styles/jasnaoe-conference" rel="self"/>
-    <link href="https://www.jasnaoe.or.jp/lecture/dl_lec/JASNAOE-ProcENG.20240809.pdf" rel="documentation"/>
+    <title>grad_thesis_ynu_mit</title>
+    <id>http://www.zotero.org/styles/grad_thesis_ynu_mit</id>
     <author>
-      <name>Yasuo Ichinose</name>
-      <uri>https://researchmap.jp/ichinose_y?lang=en</uri>
+      <name>Taiga Mitsuyuki</name>
     </author>
     <category citation-format="numeric"/>
     <category field="science"/>
     <category field="generic-base"/>
-    <summary>JASNAOE conference paper format</summary>
-    <updated>2024-09-15T05:47:04+00:00</updated>
+    <summary>Graduation Thesis reference format</summary>
+    <updated>2025-08-14T05:47:04+00:00</updated>
     <rights>This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <macro name="title">
@@ -124,13 +121,13 @@
     <sort>
       <key variable="citation-number"/>
     </sort>
-    <layout delimiter="," suffix=")">
+    <layout delimiter="," prefix="[" suffix="]">
       <text variable="citation-number"/>
     </layout>
   </citation>
   <bibliography et-al-min="6" et-al-use-first="1" second-field-align="flush" entry-spacing="0" line-spacing="2">
     <layout>
-      <text variable="citation-number" suffix=")"/>
+      <text variable="citation-number" prefix="[" suffix="]"/>
       <group delimiter=" ">
         <text macro="author"/>
         <text macro="title" suffix=","/>
