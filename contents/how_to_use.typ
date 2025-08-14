@@ -15,7 +15,7 @@ Typstでは、PNG・JPEG・GIF・SVG フォーマットの画像をサポート�
 #figure(
   image("img/example.svg", width: 90%),
   placement: none, // top, bottom, auto, none
-  caption: "Example of a figure.",
+  caption: [Example of a figure.],
 ) <fig:fig_example>
 
 === このテンプレートにおける図の記述方法 <how_to_describe_figure_in_this_format>
