@@ -1,5 +1,7 @@
-#let mincho = ("Times New Roman", "IPAMincho")
-#let gothic = ("Times New Roman", "IPAGothic")
+#let mincho = ("TeX Gyre Termes", "IPAMincho")
+#let gothic = ("TeX Gyre Termes", "IPAGothic")
+// #let mincho = ("Times New Roman", "IPAMincho")
+// #let gothic = ("Times New Roman", "IPAGothic")
 // #let mincho = ("Times New Roman", "MS Mincho", "IPAMincho")
 // #let gothic = ("Times New Roman", "MS Gothic", "IPAGothic")
 
@@ -33,7 +35,7 @@
   }
   show outline.entry.where(level: 2): set block(spacing: spaceS_size)
   v(spaceM_size)
-  text(size: textM, font: gothic, weight: "bold")[図目次] // TODO gothicにする
+  text(size: textM, font: gothic, weight: "bold")[図目次]
   v(spaceS_size)
   outline(indent: spaceS_size, title: none, target: figure.where(kind: image))
   pagebreak(weak: true)
@@ -47,7 +49,7 @@
   }
   show outline.entry.where(level: 2): set block(spacing: spaceS_size)
   v(spaceM_size)
-  text(size: textM, font: gothic, weight: "bold")[表目次] // TODO gothicにする
+  text(size: textM, font: gothic, weight: "bold")[表目次]
   v(spaceS_size)
   outline(indent: spaceS_size, title: none, target: figure.where(kind: table))
   pagebreak(weak: true)
