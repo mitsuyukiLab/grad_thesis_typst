@@ -15,7 +15,7 @@ Typstでは、PNG・JPEG・GIF・SVG フォーマットの画像をサポート�
 #figure(
   image("img/example.svg", width: 90%),
   placement: none, // top, bottom, auto, none
-  caption: [Example of a figure.],
+  caption: [Example of a figure of each simple and easy and great and beautiful mathematical equation.],
 ) <fig:fig_example>
 
 === このテンプレートにおける図の記述方法 <how_to_describe_figure_in_this_format>
@@ -28,7 +28,7 @@ Typstの文法とこのテンプレートに沿って、図を記述する方法
 #figure(
   placement: none, // top, bottom, auto, none
   image("img/example.svg", width: 90%),
-  caption: [Example of a figure.],
+  caption: [Example of a figure of each simple and easy mathematical equation.],
 ) <fig:fig_example> // 図の参照用のラベル
 ```
 

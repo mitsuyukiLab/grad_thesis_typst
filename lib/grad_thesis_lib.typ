@@ -13,6 +13,8 @@
 #let spaceS_size = 1.5em
 #let spaceM_size = 3.0em
 
+#let max_width = 160.0mm // 1 column(210.0mm - left margin(17.0mm) - right margin(17.0mm) - margin(16.0mm))
+
 // Definition of chapter outline
 #let toc() = {
   show outline.entry: it => {
@@ -189,8 +191,25 @@
   show figure.where(kind: image): set figure.caption(position: bottom, separator: [ ])
   show math.equation: set math.equation(supplement: [Eq.])
 
-  show figure.caption: it => {
-    align(box(align(it, left)), center)
+  show figure.caption: it => context {
+    let label = it.supplement + " " + str(it.counter.display(it.numbering))
+    
+    let full_text = label + it.body
+    if measure(full_text).width <= max_width [
+      #align(box(align(it, left)), center)
+    ] else [
+    // Output in 2-column layout
+      #grid(
+        columns: (auto, 1fr),
+        gutter: 0.5em,
+        [
+          #label
+        ],
+        [
+          #box(align(it.body, left))
+        ]
+      )
+    ]
   }
 
   // Display block code in a larger block with more padding.
