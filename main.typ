@@ -52,5 +52,5 @@
 // 参考文献
 #[
   #set text(lang: "en")
-  #bibliography(title: "参考文献", style:"lib/jasnaoe-reference.csl", "references.bib")
+  #bibliography(title: "参考文献", style:"lib/grad_thesis_reference.csl", "references.bib")
 ]

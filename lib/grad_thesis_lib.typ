@@ -13,6 +13,10 @@
 
 // Definition of chapter outline
 #let toc() = {
+  show outline.entry: it => {
+    show cite: _ => {} // ← 目次では cite を無視
+    it
+  }
   show outline.entry.where(level: 1): set block(spacing: spaceS_size)
   v(spaceM_size)
   text(size: textM, font: gothic, weight: "bold")[目次]
@@ -23,6 +27,10 @@
 
 // Definition of figure outline
 #let toc_img() = {
+  show outline.entry: it => {
+    show cite: _ => {} // ← 目次では cite を無視
+    it
+  }
   show outline.entry.where(level: 2): set block(spacing: spaceS_size)
   v(spaceM_size)
   text(size: textM, font: gothic, weight: "bold")[図目次] // TODO gothicにする
@@ -33,6 +41,10 @@
 
 // Definition of table outline
 #let toc_table() = {
+  show outline.entry: it => {
+    show cite: _ => {} // ← 目次では cite を無視
+    it
+  }
   show outline.entry.where(level: 2): set block(spacing: spaceS_size)
   v(spaceM_size)
   text(size: textM, font: gothic, weight: "bold")[表目次] // TODO gothicにする
