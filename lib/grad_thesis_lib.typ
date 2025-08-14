@@ -13,7 +13,7 @@
 #let spaceS_size = 1.5em
 #let spaceM_size = 3.0em
 
-#let max_width = 170.0mm // 1 column(210.0mm - left margin(17.0mm) - right margin(17.0mm) - margin(6.0mm))
+#let max_width = 160.0mm // 1 column(210.0mm - left margin(17.0mm) - right margin(17.0mm) - margin(16.0mm))
 
 // Definition of chapter outline
 #let toc() = {
