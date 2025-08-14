@@ -22,7 +22,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq -y fonts-ipafont-mincho fonts-ipafont-gothic
-          sudo apt install tex-gyre -qq
+          sudo apt install -qq tex-gyre
       - uses: typst-community/setup-typst@v4
       - name: Compile
         run: |
